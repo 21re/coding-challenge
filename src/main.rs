@@ -24,7 +24,7 @@ const GEN_ASCII_STR_CHARSET: &'static [u8] =
 
 impl <R: Rng> ChallengeGenerator<R> {
   fn next_letter(&mut self) {
-    let block_size_range = Range::new(1, 4000);
+    let block_size_range = Range::new(1, 15);
     self.letter_remaining = block_size_range.ind_sample(&mut self.rng);
     self.letter = self.rng.choose(GEN_ASCII_STR_CHARSET).unwrap().clone();
     self.ranges = self.ranges - 1;
@@ -48,7 +48,6 @@ impl <R: Rng> Read for ChallengeGenerator<R> {
     }
 
     if buf.len() == 1 {
-      println!("meep");
       buf[0] = self.letter;
       self.new_line_pending = true;
       self.letter_remaining = self.letter_remaining - 1;
@@ -56,7 +55,7 @@ impl <R: Rng> Read for ChallengeGenerator<R> {
     }
 
     let out_size = std::cmp::min(buf.len() / 2, self.letter_remaining);
-    for i in (0 .. out_size).step_by(2) {
+    for i in (0 .. (out_size * 2)).step_by(2) {
       buf[i] = self.letter;
       buf[i + 1] = 10 as u8;
     }
@@ -69,7 +68,7 @@ impl <R: Rng> Read for ChallengeGenerator<R> {
 #[get("/")]
 fn index() -> io::Result<Stream<ChallengeGenerator<ThreadRng>>> {
   let mut rng = rand::thread_rng();
-  let ranges_range = Range::new(40, 200);
+  let ranges_range = Range::new(2, 5);
   let ranges: u32 = ranges_range.ind_sample(&mut rng);
   let gen = ChallengeGenerator{rng: rng, ranges: ranges, letter_remaining: 0, letter: 0 as u8, new_line_pending: false};
   let s: Stream<ChallengeGenerator<ThreadRng>> = Stream::from(gen);
