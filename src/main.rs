@@ -24,7 +24,7 @@ const GEN_ASCII_STR_CHARSET: &'static [u8] =
 
 impl <R: Rng> ChallengeGenerator<R> {
   fn next_letter(&mut self) {
-    let block_size_range = Range::new(1, 15);
+    let block_size_range = Range::new(1, 4000);
     self.letter_remaining = block_size_range.ind_sample(&mut self.rng);
     self.letter = self.rng.choose(GEN_ASCII_STR_CHARSET).unwrap().clone();
     self.ranges = self.ranges - 1;
@@ -68,7 +68,7 @@ impl <R: Rng> Read for ChallengeGenerator<R> {
 #[get("/")]
 fn index() -> io::Result<Stream<ChallengeGenerator<ThreadRng>>> {
   let mut rng = rand::thread_rng();
-  let ranges_range = Range::new(2, 5);
+  let ranges_range = Range::new(2, 300);
   let ranges: u32 = ranges_range.ind_sample(&mut rng);
   let gen = ChallengeGenerator{rng: rng, ranges: ranges, letter_remaining: 0, letter: 0 as u8, new_line_pending: false};
   let s: Stream<ChallengeGenerator<ThreadRng>> = Stream::from(gen);
