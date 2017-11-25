@@ -1,6 +1,10 @@
 * Coding Challenge
-
-  Start the project.
-  #+BEGIN_SRC shell-script
-  docker run -p 8080:80  21re/coding-challenge
-  #+END_SRC
+** Build the project
+   #+BEGIN_SRC shell-script
+   ./build_packages.sh
+   #+END_SRC
+   
+** Start the project.
+   #+BEGIN_SRC shell-script
+   docker run -p 8080:80  21re/coding-challenge
+   #+END_SRC
