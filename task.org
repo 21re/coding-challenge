@@ -3,39 +3,53 @@
 
 ** Overview
 
-  Create a service (daemon) which fetches data from an endpoint
-  (provided by our docker container) at x second intervals and cache
-  results in memory (after each fetch clear the existing cache and
-  populate it with new items)
+  Create a service which fetches data from an endpoint (provided by
+  our docker container) at x second intervals and cache the last
+  results in memory.
 
 ** Run the docker container
    #+BEGIN_SRC shell-script
    docker run -p 8080:80 21re/coding-challenge
    #+END_SRC
 
-
 ** Our Endpoint
    Our endpoint: ~GET  /~ returns a list of items separated by a ~\n~ character.
 
+   #+BEGIN_SRC shell-script
+   » curl localhost:8080 | head
+      N
+      N
+      N
+      N
+      A
+      A
+      A
+      A
+      A
+      ...
+   #+END_SRC
+
 
 ** Service Endpoint
-  Create HTTP interface that allows clients to access the data at a given index
+  Your App should expose an HTTP endpoint that allows clients to access the cached data at a given index
 
   * use HTTP framework of your choice
   * GET ~/$index~ return an item at a given index
   * Please provide instructions in README file how to run your server locally.
 
-
-* Bonus (mandatory for senior level applicants)
+   #+BEGIN_SRC shell-script
+   » curl localhost:1337/1
+      N
+   #+END_SRC
 
 ** Compression
 
-   Items returned by endpoint A will contain repeated duplicates at
-   high frequencies. Modify your cache to use [[https://en.wikipedia.org/wiki/Run-length_encoding][Run-length encoding (RLE)]]
+   Items returned by endpoint A will contain repeated characters at
+   high frequencies. Your cache should use [[https://en.wikipedia.org/wiki/Run-length_encoding][Run-length encoding (RLE)]]
    compression for internal storage.
 
 
-   You can use this code as a stating point:
+   You can use this code as a starting point:
    #+BEGIN_SRC scala
    trait Compressor {
     def compress[A]: ??? => Seq[Repeat[A]]
