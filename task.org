@@ -57,3 +57,8 @@
 
    case class Repeat[A](count: Int, element: A)
    #+END_SRC
+
+
+** Constraint
+
+   Please use a statically typed language adequate for the position.
