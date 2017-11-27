@@ -4,16 +4,16 @@
 ** Overview
 
   Create a service which fetches data from an endpoint (provided by
-  our docker container) at x second intervals and cache the last
+  our challenge docker container) at x second intervals and caches the newest
   result in memory.
 
-** Run the docker container
+** Run the challenge docker container
    #+BEGIN_SRC shell-script
    docker run -p 8080:80 21re/coding-challenge
    #+END_SRC
 
 ** Our Endpoint
-   Our endpoint: ~GET  /~ returns a list of items separated by a ~\n~ character.
+   ~GET  /~ on the docker container returns a list of items separated by a ~\n~ character.
 
    #+BEGIN_SRC shell-script
    » curl localhost:8080 | head
@@ -34,19 +34,21 @@
   Your App should expose an HTTP endpoint that allows clients to access the cached data at a given index
 
   * use HTTP framework of your choice
-  * GET ~/$index~ return an item at a given index
-  * Please provide instructions in a README file how to run your server locally.
+  * GET ~/$index~ return an item at a given index (start at 0 or 1)
+  * Please provide instructions in a README file explaining how to run your server locally
 
    #+BEGIN_SRC shell-script
    » curl localhost:1337/1
       N
+   » curl localhost:1337/7
+      A
    #+END_SRC
 
 ** Compression
 
    Items returned by endpoint A will contain repeated characters at
    high frequencies. Your cache should use [[https://en.wikipedia.org/wiki/Run-length_encoding][Run-length encoding (RLE)]]
-   compression for internal storage.
+   compression for internal storage in memory.
 
 
    You can use this code as a starting point:
@@ -61,4 +63,4 @@
 
 ** Constraint
 
-   Please use a statically typed language adequate for the position.
+   Please use a statically typed language adequate for the position you are applying to.
