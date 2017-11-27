@@ -5,7 +5,7 @@
 
   Create a service which fetches data from an endpoint (provided by
   our docker container) at x second intervals and cache the last
-  results in memory.
+  result in memory.
 
 ** Run the docker container
    #+BEGIN_SRC shell-script
@@ -35,7 +35,7 @@
 
   * use HTTP framework of your choice
   * GET ~/$index~ return an item at a given index
-  * Please provide instructions in README file how to run your server locally.
+  * Please provide instructions in a README file how to run your server locally.
 
    #+BEGIN_SRC shell-script
    » curl localhost:1337/1
